@@ -1,4 +1,4 @@
-# 会议室预约系统 (Node.js 版本)
+# 会议室预约系统
 
 这是一个基于Node.js的会议室预约系统，允许用户注册、登录、查看会议室列表、预约会议室以及管理自己的预约。管理员可以管理用户、会议室和预约。
 
@@ -34,7 +34,6 @@ createdb meeting_rooms
 
 4. 安装依赖
 ```bash
-cd d:\pyprogram\rooms
 npm install
 ```
 
