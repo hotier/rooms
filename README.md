@@ -26,7 +26,6 @@
 
 3. 安装依赖
 ```bash
-cd d:\pyprogram\rooms
 npm install
 ```
 
