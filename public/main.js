@@ -2,7 +2,10 @@
 const loginBtn = document.getElementById('loginBtn');
 const registerBtn = document.getElementById('registerBtn');
 const logoutBtn = document.getElementById('logoutBtn');
-const username = document.getElementById('username');
+const userProfile = document.getElementById('userProfile');
+const userAvatar = document.getElementById('userAvatar');
+const userEmail = document.getElementById('userEmail');
+const adminBtn = document.getElementById('adminBtn');
 const userMenu = document.getElementById('userMenu');
 const loginModal = document.getElementById('loginModal');
 const registerModal = document.getElementById('registerModal');
@@ -13,6 +16,24 @@ const registerForm = document.getElementById('registerForm');
 const bookingForm = document.getElementById('bookingForm');
 const roomsContainer = document.getElementById('roomsContainer');
 const bookingsContainer = document.getElementById('bookingsContainer');
+
+// 头像点击事件
+userAvatar.addEventListener('click', () => {
+  userMenu.classList.toggle('hidden');
+});
+
+// 点击页面其他地方关闭菜单
+window.addEventListener('click', (e) => {
+  if (!userProfile.contains(e.target)) {
+    userMenu.classList.add('hidden');
+  }
+});
+
+// 管理后台按钮点击事件
+adminBtn.addEventListener('click', () => {
+  window.location.href = '/admin/index.html';
+  userMenu.classList.add('hidden');
+});
 
 // 显示模态框
 function showModal(modal) {
@@ -32,32 +53,68 @@ function checkAuth() {
   })
     .then(res => {
       console.log('checkAuth response status:', res.status);
+      if (res.status === 401) {
+        throw new Error('未登录');
+      }
       return res.json();
     })
     .then(data => {
       console.log('用户已登录:', data);
       // 用户已登录
       const user = data;
-      username.textContent = user.username;
-      userMenu.classList.remove('hidden');
+      userEmail.textContent = user.email;
+      userProfile.classList.remove('hidden');
       loginBtn.classList.add('hidden');
       registerBtn.classList.add('hidden');
       loadBookings();
       
-      // 如果是管理员，重定向到管理页面
+      // 如果是管理员，显示管理后台按钮
       if (user.role === 'admin') {
-        console.log('管理员用户，重定向到管理页面');
-        window.location.href = '/admin/index.html';
+        console.log('管理员用户');
+        adminBtn.classList.remove('hidden');
+      } else {
+        adminBtn.classList.add('hidden');
       }
     })
     .catch(err => {
       // 用户未登录
+      console.log('用户未登录:', err.message);
+      userProfile.classList.add('hidden');
       userMenu.classList.add('hidden');
       loginBtn.classList.remove('hidden');
       registerBtn.classList.remove('hidden');
       bookingsContainer.innerHTML = '<p>请先登录查看预约</p>';
     });
 }
+
+// 退出登录按钮点击事件
+logoutBtn.addEventListener('click', () => {
+  fetch('/api/users/logout', {
+    method: 'POST',
+    credentials: 'include'
+  })
+    .then(() => {
+      // 注销成功，更新UI
+      userProfile.classList.add('hidden');
+      userMenu.classList.add('hidden');
+      loginBtn.classList.remove('hidden');
+      registerBtn.classList.remove('hidden');
+      bookingsContainer.innerHTML = '<p>请先登录查看预约</p>';
+      alert('注销成功');
+    })
+    .catch(err => {
+      console.error('注销失败:', err);
+      alert('注销失败，请重试');
+    });
+  userMenu.classList.add('hidden');
+});
+
+// 页面加载完成后检查登录状态
+window.addEventListener('load', () => {
+  console.log('页面加载完成，检查登录状态...');
+  checkAuth();
+  loadRooms();
+})
 
 // 加载会议室列表
 function loadRooms() {

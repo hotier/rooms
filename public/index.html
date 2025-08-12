@@ -13,14 +13,18 @@
     <div class="container">
       <a href="#" class="logo">会议室预约系统</a>
       <div class="nav-links">
-        <a href="#rooms" class="nav-link">会议室列表</a>
-        <a href="#bookings" class="nav-link">我的预约</a>
-        <button id="loginBtn" class="btn btn-primary">登录</button>
-        <button id="registerBtn" class="btn btn-secondary">注册</button>
-        <div id="userMenu" class="user-menu hidden">
-          <span id="username"></span>
-          <button id="logoutBtn" class="btn btn-sm btn-danger">退出登录</button>
-        </div>
+          <a href="#rooms" class="nav-link">会议室列表</a>
+          <a href="#bookings" class="nav-link">我的预约</a>
+          <button id="loginBtn" class="btn btn-primary">登录</button>
+          <button id="registerBtn" class="btn btn-secondary">注册</button>
+          <div id="userProfile" class="user-profile hidden">
+            <img src="https://via.placeholder.com/40" alt="用户头像" class="user-avatar" id="userAvatar">
+            <div id="userMenu" class="user-menu hidden">
+              <span id="userEmail"></span>
+              <button id="adminBtn" class="btn btn-sm btn-secondary hidden">管理后台</button>
+              <button id="logoutBtn" class="btn btn-sm btn-danger">退出登录</button>
+            </div>
+          </div>
       </div>
     </div>
   </nav>

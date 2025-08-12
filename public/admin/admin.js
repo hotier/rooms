@@ -33,7 +33,6 @@ function loadRecentBookings() {
         const statusClass = status === '已结束' ? 'text-gray' : 'text-green';
 
         row.innerHTML = `
-          <td>${booking.id}</td>
           <td>${booking.title}</td>
           <td>${booking.user.username}</td>
           <td>${booking.room.name}</td>
@@ -68,24 +67,6 @@ function loadUsers() {
         `;
         tableBody.appendChild(row);
       });
-
-      // 添加编辑用户事件监听
-      document.querySelectorAll('.edit-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const userId = this.getAttribute('data-id');
-          editUser(userId);
-        });
-      });
-
-      // 添加删除用户事件监听
-      document.querySelectorAll('.delete-user').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const userId = this.getAttribute('data-id');
-          if (confirm('确定要删除这个用户吗？')) {
-            deleteUser(userId);
-          }
-        });
-      });
     })
     .catch(error => console.error('加载用户列表失败:', error));
 }
@@ -113,24 +94,6 @@ function loadRooms() {
         `;
         tableBody.appendChild(row);
       });
-
-      // 添加编辑会议室事件监听
-      document.querySelectorAll('.edit-room').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const roomId = this.getAttribute('data-id');
-          editRoom(roomId);
-        });
-      });
-
-      // 添加删除会议室事件监听
-      document.querySelectorAll('.delete-room').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const roomId = this.getAttribute('data-id');
-          if (confirm('确定要删除这个会议室吗？')) {
-            deleteRoom(roomId);
-          }
-        });
-      });
     })
     .catch(error => console.error('加载会议室列表失败:', error));
 }
@@ -146,7 +109,6 @@ function loadBookings() {
       bookings.forEach(booking => {
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>${booking.id}</td>
           <td>${booking.title}</td>
           <td>${booking.user.username}</td>
           <td>${booking.room.name}</td>
@@ -262,6 +224,46 @@ function deleteUser(userId) {
   })
   .catch(error => console.error('删除用户失败:', error));
 }
+
+// 使用事件委托为编辑用户按钮添加事件监听
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.edit-user')) {
+    const btn = e.target.closest('.edit-user');
+    const userId = btn.getAttribute('data-id');
+    editUser(userId);
+  }
+});
+
+// 使用事件委托为删除用户按钮添加事件监听
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.delete-user')) {
+    const btn = e.target.closest('.delete-user');
+    const userId = btn.getAttribute('data-id');
+    if (confirm('确定要删除这个用户吗？')) {
+      deleteUser(userId);
+    }
+  }
+});
+
+// 使用事件委托为编辑会议室按钮添加事件监听
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.edit-room')) {
+    const btn = e.target.closest('.edit-room');
+    const roomId = btn.getAttribute('data-id');
+    editRoom(roomId);
+  }
+});
+
+// 使用事件委托为删除会议室按钮添加事件监听
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.delete-room')) {
+    const btn = e.target.closest('.delete-room');
+    const roomId = btn.getAttribute('data-id');
+    if (confirm('确定要删除这个会议室吗？')) {
+      deleteRoom(roomId);
+    }
+  }
+});
 
 // 添加会议室模态框
 const roomModal = document.getElementById('roomModal');

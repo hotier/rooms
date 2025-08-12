@@ -28,7 +28,7 @@ connectDB().then(async () => {
 });
 
 // 中间件
-app.use(cors({ credentials: true, origin: 'http://localhost:5000' }));
+app.use(cors({ credentials: true, origin: `http://localhost:5000` }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
