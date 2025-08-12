@@ -100,7 +100,7 @@ rooms/
 1. 确保PostgreSQL服务已启动
 2. 默认端口为5000，如需更改可在app.js中修改
 3. 首次使用时，运行`node init.js`初始化应用
-4. 管理员账号默认初始化为admin@example.com，密码为password
+4. 管理员账号默认初始化为admin@example.com，密码为admin123
 5. 确保已正确配置config/db.js中的数据库连接信息
 
 ## 新功能开发计划
